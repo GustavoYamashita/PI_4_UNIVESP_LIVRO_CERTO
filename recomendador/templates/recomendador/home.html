@@ -1,0 +1,25 @@
+{% extends 'recomendador/base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Bem-vindo(a)</h2>
+    <p>Sistema de recomendação baseado nos empréstimos da biblioteca.</p>
+    <div class="metric">Livros <b>{{ n_livros }}</b></div>
+    <div class="metric">Alunos <b>{{ n_alunos }}</b></div>
+    <div class="metric">Empréstimos <b>{{ n_emprestimos }}</b></div>
+</div>
+
+<div class="card">
+    <h2>Top 10 livros mais emprestados</h2>
+    <table>
+        <tr><th>Livro</th><th>Autor</th><th>Gênero</th><th>Empréstimos</th></tr>
+        {% for l in top10 %}
+        <tr>
+            <td>{{ l.titulo }}</td>
+            <td>{{ l.autor }}</td>
+            <td>{{ l.genero }}</td>
+            <td>{{ l.emprestimos }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

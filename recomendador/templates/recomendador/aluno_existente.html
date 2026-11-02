@@ -1,0 +1,48 @@
+{% extends 'recomendador/base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Recomendar para aluno existente</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label>{{ form.aluno.label }}</label>{{ form.aluno }}
+        <label>{{ form.modelo.label }}</label>{{ form.modelo }}
+        <label>{{ form.k.label }}</label>{{ form.k }}
+        <div style="margin-top:16px">
+            <button type="submit">Recomendar</button>
+        </div>
+    </form>
+</div>
+
+{% if historico %}
+<div class="card">
+    <h3>Histórico</h3>
+    <div class="hist">
+        {% for h in historico %}<span class="chip">{{ h }}</span>{% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if resultado %}
+<div class="card">
+    <h3>Top {{ resultado|length }} — {{ modelo_usado }}</h3>
+    <table>
+        <tr>
+            <th>Livro</th><th>Autor</th><th>Gênero</th><th>Empréstimos</th>
+            {% if resultado.0.similaridade %}<th>Similaridade</th>{% endif %}
+        </tr>
+        {% for r in resultado %}
+        <tr>
+            <td>{{ r.Livro }}</td>
+            <td>{{ r.Autor }}</td>
+            <td>{{ r.Gênero }}</td>
+            <td>{{ r.emprestimos }}</td>
+            {% if r.similaridade %}<td>{{ r.similaridade|floatformat:3 }}</td>{% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    <p class="muted">Diversidade (gêneros/K): {{ diversidade|floatformat:2 }}</p>
+</div>
+{% elif form.is_bound %}
+<div class="card"><p>Não foi possível gerar recomendações.</p></div>
+{% endif %}
+{% endblock %}

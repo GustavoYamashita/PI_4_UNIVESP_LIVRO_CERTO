@@ -1,0 +1,57 @@
+{% extends 'recomendador/base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Métricas de avaliação</h2>
+    <form method="get">
+        <label>K:</label>
+        <input type="number" name="k" value="{{ k }}" min="3" max="10">
+        <label>Nº de usuários:</label>
+        <input type="number" name="n" value="{{ n }}" min="10" max="100">
+        <input type="hidden" name="rodar" value="1">
+        <div style="margin-top:12px">
+            <button type="submit">Rodar avaliação</button>
+        </div>
+    </form>
+</div>
+
+{% if tabela %}
+<div class="card">
+    <h3>Comparação dos modelos (leave-one-out)</h3>
+    <table>
+        <tr>
+            <th>Modelo</th><th>Precision@K</th><th>Recall@K</th>
+            <th>Hit Rate</th><th>NDCG@K</th><th>N avaliado</th>
+        </tr>
+        {% for r in tabela %}
+        <tr>
+            <td>{{ r.modelo }}</td>
+            <td>{{ r.precision }}</td>
+            <td>{{ r.recall }}</td>
+            <td>{{ r.hit_rate }}</td>
+            <td>{{ r.ndcg }}</td>
+            <td>{{ r.n }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if arvore %}
+<div class="card">
+    <h3>Árvore de decisão</h3>
+    <div class="metric">Accuracy <b>{{ arvore.accuracy|floatformat:3 }}</b></div>
+    <div class="metric">Precision (macro) <b>{{ arvore.precision_macro|floatformat:3 }}</b></div>
+    <div class="metric">Recall (macro) <b>{{ arvore.recall_macro|floatformat:3 }}</b></div>
+    <div class="metric">F1 (macro) <b>{{ arvore.f1_macro|floatformat:3 }}</b></div>
+</div>
+{% endif %}
+
+{% if kmeans %}
+<div class="card">
+    <h3>Clusterização (KMeans)</h3>
+    <div class="metric">Clusters <b>{{ kmeans.k }}</b></div>
+    <div class="metric">Silhouette <b>{{ kmeans.silhouette }}</b></div>
+    <div class="metric">Livros <b>{{ kmeans.n_livros }}</b></div>
+</div>
+{% endif %}
+{% endblock %}

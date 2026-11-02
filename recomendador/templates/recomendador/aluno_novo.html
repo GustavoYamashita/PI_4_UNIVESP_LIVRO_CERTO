@@ -1,0 +1,45 @@
+{% extends 'recomendador/base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Recomendar para aluno novo</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label>{{ form.generos.label }}</label>
+        {{ form.generos }}
+        <label>{{ form.qtd_habito.label }}</label>{{ form.qtd_habito }}
+        <label>{{ form.pref_ext.label }}</label>{{ form.pref_ext }}
+        <label>{{ form.tema.label }}</label>{{ form.tema }}
+        <label>{{ form.k.label }}</label>{{ form.k }}
+        <div style="margin-top:16px">
+            <button type="submit">Recomendar</button>
+        </div>
+    </form>
+</div>
+
+{% if resultado %}
+<div class="card">
+    <h3>Recomendações</h3>
+    <table>
+        <tr><th>Livro</th><th>Autor</th><th>Gênero</th><th>Empréstimos</th><th>Resumo</th></tr>
+        {% for r in resultado %}
+        <tr>
+            <td>{{ r.Livro }}</td>
+            <td>{{ r.Autor }}</td>
+            <td>{{ r.Gênero }}</td>
+            <td>{{ r.emprestimos }}</td>
+            <td>{{ r.Resumo }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="card">
+    <h3>Mais emprestados da biblioteca</h3>
+    <table>
+        <tr><th>Livro</th><th>Autor</th><th>Gênero</th><th>Empréstimos</th></tr>
+        {% for r in populares %}
+        <tr><td>{{ r.Livro }}</td><td>{{ r.Autor }}</td><td>{{ r.Gênero }}</td><td>{{ r.emprestimos }}</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'recomendador/base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Catálogo e clusters</h2>
+    <p class="muted">Silhouette: {{ silhouette }} — K: {{ k }}</p>
+    <table>
+        <tr><th>Livro</th><th>Autor</th><th>Gênero</th><th>Empréstimos</th><th>Cluster</th></tr>
+        {% for l in clusters %}
+        <tr>
+            <td>{{ l.Livro }}</td><td>{{ l.Autor }}</td>
+            <td>{{ l.Gênero }}</td><td>{{ l.emprestimos }}</td>
+            <td>{{ l.cluster }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="grid2">
+    <div class="card">
+        <h3>Top 10 mais emprestados</h3>
+        <table>
+            <tr><th>Livro</th><th>Gênero</th><th>Empr.</th></tr>
+            {% for l in top10 %}
+            <tr><td>{{ l.Livro }}</td><td>{{ l.Gênero }}</td><td>{{ l.emprestimos }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="card">
+        <h3>Empréstimos por gênero</h3>
+        <table>
+            <tr><th>Gênero</th><th>Empréstimos</th></tr>
+            {% for g, c in generos %}
+            <tr><td>{{ g }}</td><td>{{ c }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
